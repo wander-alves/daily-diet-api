@@ -1,4 +1,4 @@
-import { Knex, knex as knexClient } from "knex";
+import knexClient, { Knex } from "knex";
 import { env } from '../infra/env';
 
 const { DB_CLIENT, DB_URL } = env;
