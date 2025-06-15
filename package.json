@@ -1,0 +1,31 @@
+{
+  "name": "daily-diet-api",
+  "version": "1.0.0",
+  "description": "Esse projeto foi criado com base nos desafios da trilha Ignite da Rocketseat, focada no desenvolvimento Backend utilizando o Node.js. O desafio é a criação de uma API REST tradicional, utilizando algumas tecnologias que foram exploradas durante as aulas.",
+  "main": "./build/src/index.js",
+  "scripts": {
+    "dev": "tsx watch ./src/index.ts",
+    "knex": "node --import tsx ./node_modules/knex/bin/cli.js",
+    "migrate:latest": "node --import tsx ./node_modules/knex/bin/cli.js migrate:latest",
+    "migrate:rollback": "node --import tsx ./node_modules/knex/bin/cli.js migrate:rollback"
+  },
+  "keywords": [],
+  "author": "wanderson alves",
+  "license": "MIT",
+  "type": "module",
+  "dependencies": {
+    "@fastify/cookie": "^11.0.2",
+    "@types/node": "^24.0.1",
+    "bcrypt": "^6.0.0",
+    "dotenv": "^16.5.0",
+    "fastify": "^5.4.0",
+    "knex": "^3.1.0",
+    "tsx": "^4.20.3",
+    "typescript": "^5.8.3",
+    "zod": "^3.25.64"
+  },
+  "devDependencies": {
+    "@types/bcrypt": "^5.0.2",
+    "sqlite3": "^5.1.7"
+  }
+}
