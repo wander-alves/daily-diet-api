@@ -10,6 +10,10 @@ const DB_CONNECTION = DB_CLIENT === 'pg' ? DB_URL : {
 const config: Knex.Config = {
   client: env.DB_CLIENT,
   connection: DB_CONNECTION,
+  migrations: {
+    directory: './db/migrations',
+  },
+  useNullAsDefault: true,
 };
 
 const knex = knexClient(config);
