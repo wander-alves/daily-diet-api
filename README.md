@@ -8,7 +8,7 @@ A aplicação será voltada para uma pessoa bem disciplinada que está tentando 
 A Rocketseat nos fornece em todos os desafios uma lista das especificações do projeto, porém, a implementação é por nossa conta.
 
 Regras de negócio: 
-- [ ] Deve ser possível criar um usuário
+- [X] Deve ser possível criar um usuário
 - [ ] Deve ser possível indentificar o usuário entre as requisições
 - [ ] Deve ser possível registrar uma refeição realizada, e que deve conter as seguintes informações:
   - Nome

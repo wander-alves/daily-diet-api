@@ -81,7 +81,13 @@ export async function accountRoutes(server: FastifyInstance) {
       })
     }
     const cookieMaxAge = 60 * 60 * 24 * 7;
+    const sessionId = `${randomUUID()}-${user.id}`;
 
+    reply.setCookie('session-id', sessionId, {
+      maxAge: cookieMaxAge,
+      httpOnly: true,
+      path: '/'
+    })
     return reply.status(204).send()
   });
 }
