@@ -1,10 +1,11 @@
-import type { FastifyInstance } from 'fastify';
+import { type FastifyInstance } from 'fastify';
+
 import { z } from 'zod';
 import { hash, compare } from 'bcrypt';
 import { randomUUID } from 'node:crypto';
 
-import { knex } from '../../database';
-import { zodErrorsFormatter } from '../../utils/zod-errors-formatter';
+import { knex } from '../database';
+import { zodErrorsFormatter } from '../utils/zod-errors-formatter';
 
 export async function accountRoutes(server: FastifyInstance) {
   server.post('/', async (request, reply) => {
@@ -65,7 +66,7 @@ export async function accountRoutes(server: FastifyInstance) {
     }
     const { email, password } = authBody.data;
 
-    const user = await knex('accounts').select('email', 'password').where('email', email).first();
+    const user = await knex('accounts').select('id', 'email', 'password').where('email', email).first();
     if (!user) {
       invalidAuthMessage()
     }
@@ -81,8 +82,7 @@ export async function accountRoutes(server: FastifyInstance) {
       })
     }
     const cookieMaxAge = 60 * 60 * 24 * 7;
-    const sessionId = `${randomUUID()}-${user.id}`;
-
+    const sessionId = `${randomUUID()}@${user.id}`;
     reply.setCookie('session-id', sessionId, {
       maxAge: cookieMaxAge,
       httpOnly: true,
