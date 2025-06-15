@@ -81,9 +81,6 @@ export async function accountRoutes(server: FastifyInstance) {
       })
     }
     const cookieMaxAge = 60 * 60 * 24 * 7;
-    await reply.cookie('session_id', {
-      maxAge: cookieMaxAge
-    })
 
     return reply.status(204).send()
   });
