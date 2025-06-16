@@ -82,6 +82,7 @@ export async function accountRoutes(server: FastifyInstance) {
         message: 'Usuário e/ou senha inválidos. Por favor, revise os dados.'
       })
     }
+
     const cookieMaxAge = 60 * 60 * 24 * 7;
     const sessionId = `${randomUUID()}@${user.id}`;
     reply.setCookie('sessionId', sessionId, {
@@ -89,6 +90,7 @@ export async function accountRoutes(server: FastifyInstance) {
       httpOnly: true,
       path: '/'
     })
+
     return reply.status(204).send()
   });
 }

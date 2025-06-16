@@ -1,11 +1,15 @@
 import type { FastifyInstance } from 'fastify';
+
 import { z } from 'zod';
 
 import { knex } from '../database';
 import { zodErrorsFormatter } from '../utils/zod-errors-formatter';
 import { randomUUID } from 'node:crypto';
+import { checkSessionId } from '../middlewares/check-session-id';
 
 export async function mealRoutes(server: FastifyInstance) {
+  server.addHook('preHandler', checkSessionId);
+
   server.post('/', async (request, reply) => {
     const createMealBodySchema = z.object({
       name: z.string().min(3, 'o nome precisa ter ao menos 3 caractéres').max(80, 'um nome pode ter no máximo 80 caractéres'),
@@ -27,25 +31,6 @@ export async function mealRoutes(server: FastifyInstance) {
     };
 
     const { name, description, date, is_on_diet } = mealBody.data;
-    const { sessionId } = request.cookies;
-
-    if (!sessionId) {
-      return reply.status(401).send({
-        message: 'Sessão expirada. Por favor, efetue o login novamente'
-      });
-    }
-
-    const [, userId] = sessionId.split('@');
-    const user = await knex('accounts').select('id', 'email').where({
-      id: userId
-    });
-
-    if (!user) {
-      return reply.status(401).send({
-        message: 'Sessão expirada. Por favor, efetue o login novamente'
-      });
-    }
-
 
     try {
       await knex('meals').insert({
@@ -54,8 +39,10 @@ export async function mealRoutes(server: FastifyInstance) {
         description,
         registered_at: date.toISOString().substring(0, 19).replace('T', ' '),
         is_on_diet,
+        user_id: request.userId
       })
     } catch (err) {
+      console.log(err)
       return reply.status(500).send({
         message: 'ocorreu um erro interno no servidor.'
       });
