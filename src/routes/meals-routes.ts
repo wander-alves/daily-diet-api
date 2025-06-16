@@ -3,6 +3,7 @@ import { z } from 'zod';
 
 import { knex } from '../database';
 import { zodErrorsFormatter } from '../utils/zod-errors-formatter';
+import { randomUUID } from 'node:crypto';
 
 export async function mealRoutes(server: FastifyInstance) {
   server.post('/', async (request, reply) => {
@@ -26,9 +27,40 @@ export async function mealRoutes(server: FastifyInstance) {
     };
 
     const { name, description, date, is_on_diet } = mealBody.data;
-    const cookies = request.cookies;
-    console.log(cookies);
+    const { sessionId } = request.cookies;
 
-    return reply.send('meals')
+    if (!sessionId) {
+      return reply.status(401).send({
+        message: 'Sessão expirada. Por favor, efetue o login novamente'
+      });
+    }
+
+    const [, userId] = sessionId.split('@');
+    const user = await knex('accounts').select('id', 'email').where({
+      id: userId
+    });
+
+    if (!user) {
+      return reply.status(401).send({
+        message: 'Sessão expirada. Por favor, efetue o login novamente'
+      });
+    }
+
+
+    try {
+      await knex('meals').insert({
+        id: randomUUID(),
+        name,
+        description,
+        registered_at: date.toISOString().substring(0, 19).replace('T', ' '),
+        is_on_diet,
+      })
+    } catch (err) {
+      return reply.status(500).send({
+        message: 'ocorreu um erro interno no servidor.'
+      });
+    }
+
+    return reply.status(204).send();
   });
 }

@@ -1,4 +1,4 @@
-import { fastify } from 'fastify';
+import fastify from 'fastify';
 import cookie from '@fastify/cookie';
 
 import { accountRoutes } from './routes/accounts-routes'
@@ -10,6 +10,7 @@ server.register(cookie);
 server.register(accountRoutes, {
   prefix: '/accounts'
 });
+
 server.register(mealRoutes, {
   prefix: '/meals'
 });

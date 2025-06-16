@@ -67,8 +67,9 @@ export async function accountRoutes(server: FastifyInstance) {
     const { email, password } = authBody.data;
 
     const user = await knex('accounts').select('id', 'email', 'password').where('email', email).first();
+
     if (!user) {
-      invalidAuthMessage()
+      return invalidAuthMessage()
     }
 
     const isPasswordMatching = await compare(password, user.password)
@@ -83,7 +84,7 @@ export async function accountRoutes(server: FastifyInstance) {
     }
     const cookieMaxAge = 60 * 60 * 24 * 7;
     const sessionId = `${randomUUID()}@${user.id}`;
-    reply.setCookie('session-id', sessionId, {
+    reply.setCookie('sessionId', sessionId, {
       maxAge: cookieMaxAge,
       httpOnly: true,
       path: '/'
