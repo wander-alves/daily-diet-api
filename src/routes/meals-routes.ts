@@ -1,6 +1,6 @@
 import type { FastifyInstance } from 'fastify';
 
-import { z } from 'zod';
+import { string, z } from 'zod';
 
 import { knex } from '../database';
 import { zodErrorsFormatter } from '../utils/zod-errors-formatter';
@@ -49,5 +49,48 @@ export async function mealRoutes(server: FastifyInstance) {
     }
 
     return reply.status(204).send();
+  });
+
+  server.get('/', async (request, reply) => {
+    const meals = await knex('meals').select('id', 'name', 'description', 'is_on_diet', 'registered_at').where(
+      { user_id: request.userId }
+    )
+
+    return reply.send({
+      total: meals.length,
+      meals,
+    })
+  });
+
+  server.delete('/:id', async (request, reply) => {
+    const deleteMealRequestParamsSchema = z.object({
+      id: z.string().uuid(),
+    });
+
+    const queryParams = deleteMealRequestParamsSchema.safeParse(request.params);
+
+    if (queryParams.success === false) {
+      const errors = zodErrorsFormatter(queryParams.error.issues);
+      return reply.status(400).send({
+        message: 'Requisição inválida',
+        errors
+      });
+    }
+
+    const { id } = queryParams.data;
+
+    const result = await knex('meals').where({
+      id,
+      user_id: request.userId,
+    }).delete().returning('*');
+    if (!result) {
+      console.log(`meal ${id} not found for user ${request.userId}`);
+      return reply.status(404).send({
+        message: 'Refeição não localizada.'
+      });
+    }
+
+    return reply.status(204).send();
+
   });
 }
