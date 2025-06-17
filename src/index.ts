@@ -1,4 +1,4 @@
-import { server } from './server.ts';
+import { server } from './server';
 import { env } from './infra/env';
 
 const { HOST, PORT } = env;
@@ -9,3 +9,4 @@ server.listen({
 }).then(() => {
   console.log(`server running on http://${HOST}:${PORT}/`)
 });
+

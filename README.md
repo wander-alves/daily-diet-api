@@ -16,6 +16,7 @@ Regras de negócio:
   - Data e Hora
   - Se está dentro ou não da dieta
   - Todas refeições devem ser relacionadas a um usuário
+- [x] Deve ser possível editar todas as informações acima de uma refeição
 - [x] Deve ser possível apagar uma refeição
 - [x] Deve ser possível listar todas as refeições de um usuário
 - [ ] Deve ser possível recuperar as seguintes métricas de um usuário:

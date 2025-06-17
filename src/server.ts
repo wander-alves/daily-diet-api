@@ -15,8 +15,4 @@ server.register(mealRoutes, {
   prefix: '/meals'
 });
 
-server.get('/home', async (request, reply) => {
-  reply.setCookie
-})
-
 export { server };
