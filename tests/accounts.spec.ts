@@ -5,22 +5,18 @@ import { execSync } from 'node:child_process'
 import { server as appServer } from '../src/server';
 
 
-describe('Accounts route', async () => {
+describe.only('Accounts route', async () => {
   beforeAll(async () => {
     appServer.ready();
-
-    console.log('Before all. Test routine started');
-  });
-
-  beforeEach(async () => {
-    execSync('npm run knex migrate:rollback -- --all')
-    execSync('npm run knex migrate:latest')
-    console.log('Before each. New test')
   });
 
   afterAll(async () => {
-    await appServer.close();
-    console.log('After all. Test finished')
+    await appServer.close()
+  });
+
+  beforeEach(async () => {
+    execSync('npm run knex migrate:rollback --all')
+    execSync('npm run knex migrate:latest')
   });
 
   it('should be able to register a new account.', async () => {

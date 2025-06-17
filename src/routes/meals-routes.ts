@@ -136,13 +136,13 @@ export async function mealRoutes(server: FastifyInstance) {
     });
 
     const createMealBodySchema = z.object({
-      name: z.string().min(3, 'o nome precisa ter ao menos 3 caractéres').max(80, 'um nome pode ter no máximo 80 caractéres'),
-      description: z.string().min(8, 'a descrição precisa ter no mínimo 8 caractéres'),
+      name: z.string().min(3, 'o nome precisa ter ao menos 3 caractéres').max(80, 'um nome pode ter no máximo 80 caractéres').optional(),
+      description: z.string().min(8, 'a descrição precisa ter no mínimo 8 caractéres').optional(),
       date: z.date({
         message: 'infome uma data válida ex.: DD/MM/YYYY',
         coerce: true
-      }),
-      is_on_diet: z.coerce.boolean(),
+      }).optional(),
+      is_on_diet: z.coerce.boolean().optional(),
     });
 
     const routeParams = getMealRouteParamSchema.safeParse(request.params)
@@ -183,7 +183,7 @@ export async function mealRoutes(server: FastifyInstance) {
     meal.name = name ?? meal.name;
     meal.description = description ?? meal.description;
     meal.is_on_diet = is_on_diet ?? meal.is_on_diet;
-    meal.registered_at = date.toISOString().substring(0, 19).replace('T', ' ') ?? meal.registered_at;
+    meal.registered_at = date?.toISOString().substring(0, 19).replace('T', ' ') ?? meal.registered_at;
     meal.updated_at = new Date().toISOString().substring(0, 19).replace('T', ' ');
 
     await knex('meals').where({ id }).update(meal);
@@ -213,9 +213,9 @@ export async function mealRoutes(server: FastifyInstance) {
     return reply.send({
       meals_metrics: {
         total,
-        totalOnDietMeals,
-        totalNonDietMeals,
-        onDietStreak
+        total_on_diet: totalOnDietMeals,
+        total_out_diet: totalNonDietMeals,
+        current_streak: onDietStreak
       }
     })
   });
