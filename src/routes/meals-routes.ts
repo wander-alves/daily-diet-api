@@ -1,11 +1,12 @@
 import type { FastifyInstance } from 'fastify';
 
-import { string, z } from 'zod';
+import { z } from 'zod';
 
 import { knex } from '../database';
 import { zodErrorsFormatter } from '../utils/zod-errors-formatter';
 import { randomUUID } from 'node:crypto';
 import { checkSessionId } from '../middlewares/check-session-id';
+import { formatDate } from '../utils/format-date';
 
 export async function mealRoutes(server: FastifyInstance) {
   server.addHook('preHandler', checkSessionId);
@@ -14,9 +15,8 @@ export async function mealRoutes(server: FastifyInstance) {
     const createMealBodySchema = z.object({
       name: z.string().min(3, 'o nome precisa ter ao menos 3 caractéres').max(80, 'um nome pode ter no máximo 80 caractéres'),
       description: z.string().min(8, 'a descrição precisa ter no mínimo 8 caractéres'),
-      date: z.date({
-        message: 'infome uma data válida ex.: DD/MM/YYYY',
-        coerce: true
+      date: z.coerce.date({
+        message: 'infome uma data válida ex.: DD/MM/YYYY HH:MM',
       }),
       is_on_diet: z.coerce.boolean(),
     });
@@ -37,7 +37,7 @@ export async function mealRoutes(server: FastifyInstance) {
         id: randomUUID(),
         name,
         description,
-        registered_at: date.toISOString().substring(0, 19).replace('T', ' '),
+        registered_at: formatDate(date),
         is_on_diet,
         user_id: request.userId
       })
@@ -189,5 +189,31 @@ export async function mealRoutes(server: FastifyInstance) {
     await knex('meals').where({ id }).update(meal);
 
     return reply.status(204).send();
+  });
+
+
+  server.get('/metrics', async (request, reply) => {
+    const meals = await knex('meals').where({
+      user_id: request.userId
+    }).orderBy('registered_at', 'desc');
+
+    const total = meals.length;
+    const totalOnDietMeals = meals.filter((meal) => meal.is_on_diet == true).length;
+    const totalNonDietMeals = total - totalOnDietMeals;
+
+    const bestStreak = meals.reduce((acc, meal) => {
+      if (meal.is_on_diet) {
+        acc.bestStreak += 1;
+      } else {
+        acc.bestStreak = 0;
+      }
+      return acc;
+    }, { bestStreak: 0 });
+    console.log(bestStreak)
+    return reply.send({
+      meals_metrics: {
+
+      }
+    })
   });
 }

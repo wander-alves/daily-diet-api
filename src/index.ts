@@ -9,4 +9,3 @@ server.listen({
 }).then(() => {
   console.log(`server running on http://${HOST}:${PORT}/`)
 });
-
