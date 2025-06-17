@@ -61,3 +61,8 @@ Para o projeto, preferi utilizar as mesmas tecnologias utilizadas nas aulas, por
 - [bcrypt](https://www.npmjs.com/package/bcrypt): Como coloquei autenticação na aplicação, por padrão adicionei o bcrypt para gerar as hashes de senha de uma forma mais simples.
 - [Zod](https://zod.dev): Para validação de dados na aplicação iremos utilizar o Zod que é uma das biblitecas mais interessantes para validação de dados em projetos TypeScript.
 - [Render](https://render.com): Para o deploy, escolhi manter o projeto na Render por questão de preguiça mesmo. Mas seria possível subir ela diretamente em outras plataformas, até mesmo em instâncias gratuitas da GCP e Azure (porém, precisaria controlar bem o consumo para não ter surpresas)
+
+
+### Bugs
+
+- [x] Durante os testes em produção percebi que um usuário não autenticado com um cookie de sessão inválido está conseguindo enviar requisições. 

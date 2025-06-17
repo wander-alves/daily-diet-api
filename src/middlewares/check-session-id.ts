@@ -15,7 +15,7 @@ export async function checkSessionId(request: FastifyRequest, reply: FastifyRepl
   const [, userId] = sessionId.split('@');
   const user = await knex('accounts').select('id', 'email').where({
     id: userId
-  });
+  }).first();
 
   if (!user) {
     return reply.status(401).send({
