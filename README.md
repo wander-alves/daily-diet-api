@@ -46,6 +46,7 @@ Privadas
 Para o projeto, preferi utilizar as mesmas tecnologias utilizadas nas aulas, porque já havia tentando algumas configurações alternativas, porém, surgiram algumas incompatibilidades.
 
 ### Desenvolvimento
+
 - [TypeScript](typescriptlang.org): Para preservar nossa sanidade ao longo do desenvolvimento, mesmo em aplicações menores, eu como boa parte da comunidade de desenvolvedores JavaScript prefere já começar com o TypeScript porque deixa o projeto muito mais tranquilo de gerenciar.
 - [tsx](https://www.npmjs.com/package/tsx): É um pacote bem maneiro para nos permitir executar o TypeScript diretamente através do Node.js. Apesar do recurso experimental já permitir que utilizemos TypeScript diretamente no Node.js utilizando a flag --experimental-transform-types, ainda não consegui fazer a configuração desse projeto sem esse item.
 - [tsup](https://www.npmjs.com/package/tsup): Pacote muito massa para podermos gerar os nossos bundles JavaScript no final do ciclo de desenvolvimento. Ele possui uma performance muito massa por conta de utilizar o ESBuild por baixo dos panos.
@@ -59,4 +60,4 @@ Para o projeto, preferi utilizar as mesmas tecnologias utilizadas nas aulas, por
 - [dotenv](https://www.npmjs.com/package/dotenv): Como iremos utilizar um esquema para gerenciarmos nosso arquivo de variáveis de ambiente a depender do nosso ambiente de execução do código, iremos utilizar o `dotenv` para podermos manipular isso mais fácil. É claro que seria possível fazer isso manualmente, mas como iria fugir um pouco do escopo, decidi não ficar inventando muita moda.
 - [bcrypt](https://www.npmjs.com/package/bcrypt): Como coloquei autenticação na aplicação, por padrão adicionei o bcrypt para gerar as hashes de senha de uma forma mais simples.
 - [Zod](https://zod.dev): Para validação de dados na aplicação iremos utilizar o Zod que é uma das biblitecas mais interessantes para validação de dados em projetos TypeScript.
-- [Render](https://render.io): Para o deploy, escolhi manter o projeto na Render por questão de preguiça mesmo. Mas seria possível subir ela diretamente em outras plataformas, até mesmo em instâncias gratuitas da GCP e Azure (porém, precisaria controlar bem o consumo para não ter surpresas)
+- [Render](https://render.com): Para o deploy, escolhi manter o projeto na Render por questão de preguiça mesmo. Mas seria possível subir ela diretamente em outras plataformas, até mesmo em instâncias gratuitas da GCP e Azure (porém, precisaria controlar bem o consumo para não ter surpresas)
