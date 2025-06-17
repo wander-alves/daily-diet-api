@@ -8,7 +8,7 @@ export async function up(knex: Knex): Promise<void> {
     table.text('email').notNullable().unique();
     table.text('password').notNullable();
     table.text('avatar_url');
-    table.datetime('created_at').defaultTo(knex.raw(`(datetime('now', 'localtime'))`));
+    table.datetime('created_at').defaultTo(knex.fn.now());
   });
 }
 
