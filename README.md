@@ -19,7 +19,7 @@ Regras de negócio:
 - [x] Deve ser possível editar todas as informações acima de uma refeição
 - [x] Deve ser possível apagar uma refeição
 - [x] Deve ser possível listar todas as refeições de um usuário
-- [ ] Deve ser possível recuperar as seguintes métricas de um usuário:
+- [x] Deve ser possível recuperar as seguintes métricas de um usuário:
   - Quantidade total de refeições registradas
   - Quantidade total de refeições dentro da dieta
   - Quantidade total de refeições fora da dieta
@@ -39,7 +39,7 @@ Privadas
 - `[DELETE] /meals/:id`: 
 - `[GET] /meals/:id`: 
 - `[GET] /meals`: 
-- `[GET] /meals/summary`: 
+- `[GET] /meals/metrics`: 
 
 
 ## Tecnologias

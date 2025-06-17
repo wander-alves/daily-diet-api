@@ -195,24 +195,27 @@ export async function mealRoutes(server: FastifyInstance) {
   server.get('/metrics', async (request, reply) => {
     const meals = await knex('meals').where({
       user_id: request.userId
-    }).orderBy('registered_at', 'desc');
+    }).orderBy('registered_at');
 
     const total = meals.length;
     const totalOnDietMeals = meals.filter((meal) => meal.is_on_diet == true).length;
     const totalNonDietMeals = total - totalOnDietMeals;
 
-    const bestStreak = meals.reduce((acc, meal) => {
+    const onDietStreak = meals.reduce((acc, meal) => {
       if (meal.is_on_diet) {
-        acc.bestStreak += 1;
+        acc += 1;
       } else {
-        acc.bestStreak = 0;
+        acc = 0;
       }
       return acc;
-    }, { bestStreak: 0 });
-    console.log(bestStreak)
+    }, 0);
+
     return reply.send({
       meals_metrics: {
-
+        total,
+        totalOnDietMeals,
+        totalNonDietMeals,
+        onDietStreak
       }
     })
   });
