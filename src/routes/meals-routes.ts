@@ -48,7 +48,7 @@ export async function mealRoutes(server: FastifyInstance) {
       });
     }
 
-    return reply.status(204).send();
+    return reply.status(201).send();
   });
 
   server.get('/', async (request, reply) => {
