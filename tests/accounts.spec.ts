@@ -5,7 +5,7 @@ import { execSync } from 'node:child_process'
 import { server as appServer } from '../src/server';
 
 
-describe.only('Accounts route', async () => {
+describe('Accounts route', async () => {
   beforeAll(async () => {
     appServer.ready();
   });

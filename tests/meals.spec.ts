@@ -6,12 +6,11 @@ import { server as appServer } from '../src/server';
 
 describe('Meals routes', async () => {
   beforeAll(async () => {
-    await appServer.ready();
+    appServer.ready();
   });
 
-
   afterAll(async () => {
-    await appServer.close();
+    await appServer.close()
   });
 
   beforeEach(async () => {
