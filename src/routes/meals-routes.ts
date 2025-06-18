@@ -191,7 +191,6 @@ export async function mealRoutes(server: FastifyInstance) {
     return reply.status(204).send();
   });
 
-
   server.get('/metrics', async (request, reply) => {
     const meals = await knex('meals').where({
       user_id: request.userId

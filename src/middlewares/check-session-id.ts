@@ -1,10 +1,10 @@
 import { FastifyRequest, FastifyReply } from 'fastify';
-import '@fastify/cookie';
+import { } from '@fastify/cookie'
 
 import { knex } from '../database/';
 
 export async function checkSessionId(request: FastifyRequest, reply: FastifyReply): Promise<void> {
-  const { sessionId } = request.cookies;
+  const sessionId = request.cookies['@daily-diet:sessionId'];
 
   if (!sessionId) {
     return reply.status(401).send({
@@ -12,9 +12,8 @@ export async function checkSessionId(request: FastifyRequest, reply: FastifyRepl
     });
   }
 
-  const [, userId] = sessionId.split('@');
   const user = await knex('accounts').select('id', 'email').where({
-    id: userId
+    session_id: sessionId
   }).first();
 
   if (!user) {
@@ -23,5 +22,5 @@ export async function checkSessionId(request: FastifyRequest, reply: FastifyRepl
     });
   }
 
-  request.userId = userId;
+  request.userId = user.id;
 }

@@ -8,9 +8,9 @@ export async function up(knex: Knex): Promise<void> {
     table.text('description').notNullable();
     table.boolean('is_on_diet').notNullable();
     table.uuid('user_id').notNullable();
-    table.datetime('registered_at').defaultTo(knex.fn.now());
-    table.datetime('created_at').defaultTo(knex.fn.now());
-    table.datetime('updated_at').defaultTo(knex.fn.now());
+    table.datetime('registered_at').defaultTo(knex.fn.now);
+    table.datetime('created_at').defaultTo(knex.fn.now);
+    table.datetime('updated_at').defaultTo(knex.fn.now);
   })
 }
 

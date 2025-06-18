@@ -83,9 +83,14 @@ export async function accountRoutes(server: FastifyInstance) {
       })
     }
 
-    const cookieMaxAge = 60 * 60 * 24 * 7;
-    const sessionId = `${randomUUID()}@${user.id}`;
-    reply.setCookie('sessionId', sessionId, {
+    const cookieMaxAge = 60 * 1 //* 24 * 7;
+    const sessionId = randomUUID();
+
+    await knex('accounts')
+      .where({ id: user.id })
+      .update({ session_id: sessionId });
+
+    reply.setCookie('@daily-diet:sessionId', sessionId, {
       maxAge: cookieMaxAge,
       httpOnly: true,
       path: '/'
